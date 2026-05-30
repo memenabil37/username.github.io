@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aml Nabil — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  --bg: #080c14;
+  --surface: #0e1624;
+  --surface2: #131d2e;
+  --rose: #e8927c;
+  --rose-dim: rgba(232,146,124,0.15);
+  --teal: #5ec4c4;
+  --teal-dim: rgba(94,196,196,0.12);
+  --white: #f0ede8;
+  --muted: #6b7794;
+  --border: rgba(240,237,232,0.07);
+  --border-rose: rgba(232,146,124,0.25);
+  --glow-rose: 0 0 40px rgba(232,146,124,0.18);
+  --glow-teal: 0 0 40px rgba(94,196,196,0.15);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed; width: 10px; height: 10px;
+  background: var(--rose); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1px solid var(--rose); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.18s ease, width 0.3s, height 0.3s, opacity 0.3s;
+  opacity: 0.5;
+}
+
+/* CANVAS PARTICLES */
+#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.5rem 5%;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,12,20,0.7);
+  backdrop-filter: blur(20px);
+}
+.logo {
+  font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+  letter-spacing: 3px; color: var(--rose);
+  text-transform: uppercase;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--rose); }
+.nav-cta {
+  font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--rose); text-decoration: none;
+  border: 1px solid var(--border-rose); padding: 8px 20px; border-radius: 2px;
+  transition: all 0.3s;
+}
+.nav-cta:hover { background: var(--rose-dim); }
+
+/* ==================== HERO ==================== */
+#hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 120px 5% 80px;
+  position: relative;
+}
+.hero-left { position: relative; z-index: 2; }
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.9s 0.2s ease forwards;
+}
+.eyebrow-line { width: 40px; height: 1px; background: var(--rose); }
+.eyebrow-text {
+  font-size: 0.72rem; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--rose);
+}
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  font-weight: 300; line-height: 1.0;
+  letter-spacing: -1px;
+  opacity: 0; animation: fadeUp 0.9s 0.4s ease forwards;
+}
+.hero-name em {
+  font-style: italic; color: var(--rose);
+  display: block;
+}
+.hero-role {
+  margin-top: 1.5rem;
+  font-size: 1rem; color: var(--muted); letter-spacing: 1px;
+  opacity: 0; animation: fadeUp 0.9s 0.6s ease forwards;
+}
+.hero-desc {
+  margin-top: 1.5rem; max-width: 440px;
+  font-size: 0.95rem; line-height: 1.85; color: #8a93ae;
+  opacity: 0; animation: fadeUp 0.9s 0.8s ease forwards;
+}
+.hero-actions {
+  display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.9s 1s ease forwards;
+}
+.btn-main {
+  display: inline-block;
+  background: var(--rose); color: var(--bg);
+  padding: 14px 32px; font-size: 0.82rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 500; text-decoration: none; border-radius: 2px;
+  transition: all 0.3s; box-shadow: var(--glow-rose);
+}
+.btn-main:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(232,146,124,0.35); }
+.btn-ghost {
+  display: inline-block; padding: 14px 32px;
+  font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 500; text-decoration: none;
+  border: 1px solid var(--border); color: var(--muted); border-radius: 2px;
+  transition: all 0.3s;
+}
+.btn-ghost:hover { border-color: var(--border-rose); color: var(--rose); }
+
+/* HERO RIGHT — abstract visual */
+.hero-right {
+  display: flex; justify-content: center; align-items: center;
+  position: relative; z-index: 2;
+  opacity: 0; animation: fadeIn 1.2s 0.5s ease forwards;
+}
+.avatar-ring-wrap {
+  position: relative; width: 380px; height: 380px;
+}
+.ring-1, .ring-2, .ring-3 {
+  position: absolute; border-radius: 50%;
+  border: 1px solid;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+}
+.ring-1 { width: 380px; height: 380px; border-color: var(--border); animation: spin 40s linear infinite; }
+.ring-2 { width: 290px; height: 290px; border-color: var(--border-rose); animation: spin 28s linear infinite reverse; }
+.ring-3 { width: 200px; height: 200px; border-color: rgba(94,196,196,0.3); animation: spin 18s linear infinite; }
+.ring-dot {
+  position: absolute; width: 8px; height: 8px;
+  background: var(--rose); border-radius: 50%;
+  top: 50%; left: -4px; transform: translateY(-50%);
+  box-shadow: var(--glow-rose);
+}
+.ring-dot-teal {
+  position: absolute; width: 6px; height: 6px;
+  background: var(--teal); border-radius: 50%;
+  top: -3px; left: 50%; transform: translateX(-50%);
+  box-shadow: var(--glow-teal);
+}
+.avatar-core {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 160px; height: 160px; border-radius: 50%;
+  background: linear-gradient(135deg, #1a2a40 0%, #0e1624 100%);
+  border: 1px solid var(--border-rose);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
+  box-shadow: var(--glow-rose), inset 0 0 30px rgba(232,146,124,0.05);
+}
+.avatar-initial {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem; font-weight: 300; color: var(--rose);
+  line-height: 1;
+}
+.avatar-sub { font-size: 0.6rem; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; }
+
+/* floating badges */
+.float-badge {
+  position: absolute;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 16px;
+  font-size: 0.75rem; color: var(--white);
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+.badge-1 { top: 20px; right: -20px; animation: float 6s ease-in-out infinite; }
+.badge-2 { bottom: 40px; left: -30px; animation: float 7s 1s ease-in-out infinite; }
+.badge-3 { top: 140px; right: -50px; animation: float 5s 2s ease-in-out infinite; }
+.badge-val { font-family: 'Syne', sans-serif; font-size: 1.1rem; color: var(--rose); display: block; }
+
+/* hero scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  opacity: 0; animation: fadeIn 1s 1.5s ease forwards;
+}
+.scroll-hint span { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+.scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--rose), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+
+/* ==================== SECTION COMMONS ==================== */
+.section { padding: 110px 5%; position: relative; z-index: 1; }
+.sec-label {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1rem;
+}
+.sec-label-line { width: 30px; height: 1px; background: var(--teal); }
+.sec-label-text { font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--teal); }
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300; line-height: 1.15;
+  margin-bottom: 3rem;
+}
+.sec-title strong { font-weight: 600; color: var(--rose); }
+hr.divider { border: none; border-top: 1px solid var(--border); }
+
+/* ==================== ABOUT ==================== */
+#about { background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%); }
+.about-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 6rem; align-items: start; }
+.about-body p { color: #8a93ae; line-height: 1.9; margin-bottom: 1.2rem; font-size: 0.98rem; }
+.about-pills {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem;
+}
+.pill {
+  background: var(--teal-dim); border: 1px solid rgba(94,196,196,0.25);
+  color: var(--teal); font-size: 0.75rem; letter-spacing: 1px;
+  padding: 5px 14px; border-radius: 100px;
+}
+.info-stack { display: flex; flex-direction: column; gap: 0; }
+.info-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.info-val { font-size: 0.9rem; color: var(--white); font-weight: 500; text-align: right; }
+.stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-top: 2rem; background: var(--border); border-radius: 8px; overflow: hidden; }
+.stat-box { background: var(--surface2); padding: 1.5rem 1rem; text-align: center; }
+.stat-n { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; color: var(--rose); line-height: 1; }
+.stat-l { font-size: 0.7rem; letter-spacing: 1px; color: var(--muted); margin-top: 4px; text-transform: uppercase; }
+
+/* ==================== EXPERIENCE ==================== */
+#experience { background: var(--bg); }
+.exp-grid { display: flex; flex-direction: column; gap: 0; }
+.exp-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 3rem; padding: 3rem 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  transition: all 0.4s;
+}
+.exp-item:first-child { padding-top: 0; }
+.exp-item:last-child { border-bottom: none; }
+.exp-item::before {
+  content: '';
+  position: absolute; left: 200px; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.exp-item:hover::before { background: var(--rose); opacity: 0.4; }
+.exp-meta { padding-right: 3rem; }
+.exp-date { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem; }
+.exp-company { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--rose); margin-bottom: 0.3rem; }
+.exp-type { font-size: 0.78rem; color: var(--muted); }
+.exp-body { padding-left: 3rem; }
+.exp-role { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; margin-bottom: 1.2rem; color: var(--white); }
+.exp-list { list-style: none; }
+.exp-list li {
+  position: relative; padding-left: 1.5rem;
+  color: #8a93ae; font-size: 0.93rem; line-height: 1.7;
+  margin-bottom: 0.6rem;
+}
+.exp-list li::before { content: '→'; position: absolute; left: 0; color: var(--rose); font-size: 0.85rem; }
+
+/* ==================== SKILLS ==================== */
+#skills { background: var(--surface); }
+.skills-wrap { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; background: var(--border); border-radius: 12px; overflow: hidden; }
+.skill-cell {
+  background: var(--surface2);
+  padding: 2rem;
+  position: relative; overflow: hidden;
+  transition: background 0.4s;
+}
+.skill-cell:hover { background: #162033; }
+.skill-cell::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 60%, rgba(232,146,124,0.04));
+  opacity: 0; transition: opacity 0.4s;
+}
+.skill-cell:hover::after { opacity: 1; }
+.skill-ico { font-size: 2rem; margin-bottom: 1rem; }
+.skill-h { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; }
+.skill-p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.stag {
+  font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase;
+  border: 1px solid var(--border); color: var(--muted);
+  padding: 3px 10px; border-radius: 2px;
+  transition: all 0.3s;
+}
+.skill-cell:hover .stag { border-color: var(--border-rose); color: var(--rose); }
+
+/* ==================== TRAINING ==================== */
+#training { background: var(--bg); }
+.training-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; }
+.t-card {
+  background: var(--surface2); padding: 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  transition: background 0.3s;
+  position: relative;
+}
+.t-card:hover { background: #111d30; }
+.t-card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--teal); transform: scaleY(0); transition: transform 0.3s;
+  transform-origin: bottom;
+}
+.t-card:hover::before { transform: scaleY(1); }
+.t-ico { font-size: 1.3rem; flex-shrink: 0; }
+.t-name { font-size: 0.88rem; font-weight: 500; color: var(--white); }
+.t-sub { font-size: 0.73rem; color: var(--muted); margin-top: 2px; }
+
+/* ==================== EDUCATION ==================== */
+#education { background: var(--surface); }
+.edu-wrap {
+  max-width: 800px; margin: 0 auto;
+  position: relative;
+}
+.edu-card-main {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+  align-items: center;
+  position: relative; overflow: hidden;
+}
+.edu-card-main::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(232,146,124,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.edu-icon { font-size: 5rem; text-align: center; }
+.edu-degree {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem;
+  color: var(--white); line-height: 1.2;
+}
+.edu-school { color: var(--rose); font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 0.3rem; }
+.edu-year { color: var(--muted); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; }
+.edu-grade {
+  display: inline-block;
+  background: var(--rose-dim); border: 1px solid var(--border-rose);
+  color: var(--rose); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+  padding: 6px 18px; border-radius: 2px;
+}
+
+/* ==================== CONTACT ==================== */
+#contact {
+  background: var(--bg);
+  text-align: center;
+}
+.contact-intro { max-width: 500px; margin: 0 auto 4rem; color: var(--muted); line-height: 1.8; font-size: 0.95rem; }
+.contact-cards { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+.c-card {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 2.5rem 3rem;
+  min-width: 200px; transition: all 0.4s;
+  text-decoration: none; color: var(--white);
+  display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+}
+.c-card:hover { border-color: var(--border-rose); transform: translateY(-6px); box-shadow: var(--glow-rose); }
+.c-icon { font-size: 2rem; }
+.c-lbl { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+.c-val { font-size: 0.95rem; font-weight: 500; }
+
+/* ==================== FOOTER ==================== */
+footer {
+  background: #050810;
+  border-top: 1px solid var(--border);
+  padding: 2rem 5%;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.foot-logo { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: var(--rose); letter-spacing: 3px; }
+.foot-copy { font-size: 0.75rem; color: var(--muted); }
+
+/* ==================== KEYFRAMES ==================== */
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes scrollPulse { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+
+/* ==================== SCROLL REVEAL ==================== */
+.reveal { opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ==================== RESPONSIVE ==================== */
+@media(max-width:900px){
+  #hero { grid-template-columns:1fr; padding-top:100px; }
+  .hero-right { display:none; }
+  .about-layout { grid-template-columns:1fr; gap:3rem; }
+  .exp-item { grid-template-columns:1fr; gap:1rem; }
+  .exp-item::before { display:none; }
+  .exp-body { padding-left:0; }
+  .skills-wrap { grid-template-columns:1fr 1fr; }
+  nav .nav-links, nav .nav-cta { display:none; }
+  .edu-card-main { grid-template-columns:1fr; text-align:center; padding:2rem; }
+  .stat-row { grid-template-columns:repeat(3,1fr); }
+}
+@media(max-width:600px){
+  .skills-wrap { grid-template-columns:1fr; }
+  .stat-row { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<canvas id="particles"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">A · N</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#education">Education</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Sales & Customer Experience Professional</span>
+    </div>
+    <h1 class="hero-name">
+      Aml Nabil<br>
+      <em>Abbas Metwally</em>
+    </h1>
+    <p class="hero-role">Retail Specialist · Telecom Industry · Mansoura, Egypt</p>
+    <p class="hero-desc">
+      A results-oriented self-starter with a proven track record in retail sales and
+      customer engagement. Skilled communicator, problem-solver, and team player
+      who thrives under pressure and continuously seeks growth.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-main">Get In Touch</a>
+      <a href="#experience" class="btn-ghost">View Experience</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="avatar-ring-wrap">
+      <div class="ring-1"><div class="ring-dot"></div></div>
+      <div class="ring-2"><div class="ring-dot-teal"></div></div>
+      <div class="ring-3"></div>
+      <div class="avatar-core">
+        <div class="avatar-initial">A</div>
+        <div class="avatar-sub">Aml Nabil</div>
+      </div>
+      <div class="float-badge badge-1">
+        <span class="badge-val">6+</span>
+        Years Experience
+      </div>
+      <div class="float-badge badge-2">
+        <span class="badge-val">11</span>
+        Certifications
+      </div>
+      <div class="float-badge badge-3">
+        <span class="badge-val">2</span>
+        Top Companies
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="sec-label reveal"><div class="sec-label-line"></div><span class="sec-label-text">Who I Am</span></div>
+  <div class="about-layout">
+    <div class="about-body reveal">
+      <h2 class="sec-title">Driven by passion,<br><strong>defined by results</strong></h2>
+      <p>With over six years of hands-on experience in the telecom retail sector, I have built my career on genuine customer relationships, consistent performance, and a relentless desire to improve. I've worked with two of Egypt's leading telecommunications companies — WE and Vodafone — gaining deep insight into sales dynamics, client psychology, and operational excellence.</p>
+      <p>I believe that every customer interaction is an opportunity, and I approach each one with empathy, professionalism, and a solution-first mindset. My extensive training background has sharpened my soft skills and leadership capabilities beyond what most in retail achieve.</p>
+      <div class="about-pills">
+        <span class="pill">Customer Service</span>
+        <span class="pill">Sales Excellence</span>
+        <span class="pill">Team Collaboration</span>
+        <span class="pill">Problem Solving</span>
+        <span class="pill">Leadership</span>
+        <span class="pill">Communication</span>
+      </div>
+      <div class="stat-row" style="margin-top:2.5rem;">
+        <div class="stat-box"><div class="stat-n">6+</div><div class="stat-l">Years</div></div>
+        <div class="stat-box"><div class="stat-n">11</div><div class="stat-l">Courses</div></div>
+        <div class="stat-box"><div class="stat-n">2</div><div class="stat-l">Companies</div></div>
+      </div>
+    </div>
+    <div class="info-stack reveal">
+      <div class="info-row"><span class="info-key">Nationality</span><span class="info-val">🇪🇬 Egyptian</span></div>
+      <div class="info-row"><span class="info-key">Date of Birth</span><span class="info-val">July 3, 1992</span></div>
+      <div class="info-row"><span class="info-key">Location</span><span class="info-val">Mansoura, Dakahlia</span></div>
+      <div class="info-row"><span class="info-key">Status</span><span class="info-val">Single</span></div>
+      <div class="info-row"><span class="info-key">Mobile</span><span class="info-val">010 1040 9831</span></div>
+      <div class="info-row"><span class="info-key">Languages</span><span class="info-val">Arabic · English</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section">
+  <div class="sec-label reveal"><div class="sec-label-line"></div><span class="sec-label-text">Career</span></div>
+  <h2 class="sec-title reveal">Professional <strong>Journey</strong></h2>
+  <div class="exp-grid">
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Feb 2019 — Present</div>
+        <div class="exp-company">WE Store</div>
+        <div class="exp-type">Egyptian Telecom Co.</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Retail Sales Specialist</div>
+        <ul class="exp-list">
+          <li>Deliver consultative selling for WE's full product & service portfolio to walk-in customers.</li>
+          <li>Consistently meet and exceed monthly revenue targets in a competitive retail environment.</li>
+          <li>Resolve customer complaints with empathy, turning issues into loyalty opportunities.</li>
+          <li>Collaborate with team members to ensure seamless store operations and shift coverage.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Jan 2018 — Jun 2019</div>
+        <div class="exp-company">Vodafone</div>
+        <div class="exp-type">Vodafone Stores</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Sales Representative</div>
+        <ul class="exp-list">
+          <li>Presented telecom plans and devices to customers, matching solutions to their needs.</li>
+          <li>Managed customer relationships and ensured an exceptional in-store experience.</li>
+          <li>Achieved individual sales quotas in a fast-paced, high-footfall store setting.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section id="skills" class="section">
+  <div class="sec-label reveal"><div class="sec-label-line"></div><span class="sec-label-text">Expertise</span></div>
+  <h2 class="sec-title reveal">Core <strong>Skills</strong></h2>
+  <div class="skills-wrap reveal">
+    <div class="skill-cell">
+      <div class="skill-ico">🤝</div>
+      <div class="skill-h">Sales & Retail</div>
+      <div class="skill-p">Proven ability to drive sales, upsell services, and maintain a loyal customer base in busy retail stores.</div>
+      <div class="tag-row"><span class="stag">Retail</span><span class="stag">B2C Sales</span><span class="stag">Upselling</span></div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-ico">💬</div>
+      <div class="skill-h">Communication</div>
+      <div class="skill-p">Articulate and persuasive communicator, able to explain complex products clearly and build instant rapport.</div>
+      <div class="tag-row"><span class="stag">Negotiation</span><span class="stag">Presentation</span></div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-ico">🎧</div>
+      <div class="skill-h">Customer Service</div>
+      <div class="skill-p">Expert at handling inquiries, complaints, and escalations with tact and a solution-first mentality.</div>
+      <div class="tag-row"><span class="stag">CRM</span><span class="stag">Conflict Resolution</span></div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-ico">🧠</div>
+      <div class="skill-h">Problem Solving</div>
+      <div class="skill-p">Quick analytical thinker who identifies root causes and delivers practical solutions under pressure.</div>
+      <div class="tag-row"><span class="stag">Critical Thinking</span><span class="stag">Decision Making</span></div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-ico">🏆</div>
+      <div class="skill-h">Leadership</div>
+      <div class="skill-p">Fosters teamwork and a spirit of cooperation; capable of mentoring peers and taking ownership.</div>
+      <div class="tag-row"><span class="stag">Team Building</span><span class="stag">Initiative</span></div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-ico">💻</div>
+      <div class="skill-h">Computer Skills</div>
+      <div class="skill-p">Proficient in Microsoft Office suite, Windows, and internet tools. ICDL certified.</div>
+      <div class="tag-row"><span class="stag">MS Office</span><span class="stag">ICDL</span><span class="stag">Internet</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TRAINING -->
+<section id="training" class="section">
+  <div class="sec-label reveal"><div class="sec-label-line"></div><span class="sec-label-text">Development</span></div>
+  <h2 class="sec-title reveal">Training <strong>Courses</strong></h2>
+  <div class="training-list reveal">
+    <div class="t-card"><div class="t-ico">💻</div><div><div class="t-name">ICDL</div><div class="t-sub">International Computer Driving Licence</div></div></div>
+    <div class="t-card"><div class="t-ico">🌐</div><div><div class="t-name">English General Diploma</div><div class="t-sub">Language Certification</div></div></div>
+    <div class="t-card"><div class="t-ico">🌱</div><div><div class="t-name">Human Development Diploma</div><div class="t-sub">Personal Growth</div></div></div>
+    <div class="t-card"><div class="t-ico">🧩</div><div><div class="t-name">Problem Solving & Decision Making</div><div class="t-sub">Analytical Skills</div></div></div>
+    <div class="t-card"><div class="t-ico">📄</div><div><div class="t-name">CV Writing & Interview Skills</div><div class="t-sub">Career Development</div></div></div>
+    <div class="t-card"><div class="t-ico">⏰</div><div><div class="t-name">Time Management</div><div class="t-sub">Productivity Skills</div></div></div>
+    <div class="t-card"><div class="t-ico">💬</div><div><div class="t-name">Communication Skills</div><div class="t-sub">Interpersonal Effectiveness</div></div></div>
+    <div class="t-card"><div class="t-ico">💡</div><div><div class="t-name">Thinking Skills</div><div class="t-sub">Cognitive Development</div></div></div>
+    <div class="t-card"><div class="t-ico">🎧</div><div><div class="t-name">Customer Service</div><div class="t-sub">Service Excellence</div></div></div>
+    <div class="t-card"><div class="t-ico">🤝</div><div><div class="t-name">Negotiation Skills</div><div class="t-sub">Influence & Persuasion</div></div></div>
+    <div class="t-card"><div class="t-ico">🏅</div><div><div class="t-name">Leaders Preparation</div><div class="t-sub">Leadership Track</div></div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EDUCATION -->
+<section id="education" class="section">
+  <div class="sec-label reveal"><div class="sec-label-line"></div><span class="sec-label-text">Academic</span></div>
+  <h2 class="sec-title reveal">Education &amp; <strong>Certifications</strong></h2>
+  <div class="edu-wrap reveal">
+    <div class="edu-card-main">
+      <div class="edu-icon">🎓</div>
+      <div>
+        <div class="edu-degree">Bachelor's Degree in Computer Science</div>
+        <div class="edu-school">Delta Higher Institute For Computer Science</div>
+        <div class="edu-year">Graduated · 2018</div>
+        <div class="edu-grade">Grade: Pass</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="sec-label reveal" style="justify-content:center;"><div class="sec-label-line"></div><span class="sec-label-text">Let's Connect</span><div class="sec-label-line"></div></div>
+  <h2 class="sec-title reveal" style="text-align:center;">Ready to <strong>Talk?</strong></h2>
+  <p class="contact-intro reveal">
+    Whether you have an opportunity, a project, or just want to say hello — I'm always open to meaningful conversations.
+  </p>
+  <div class="contact-cards reveal">
+    <a href="tel:01010409831" class="c-card">
+      <div class="c-icon">📞</div>
+      <div class="c-lbl">Mobile</div>
+      <div class="c-val">010 1040 9831</div>
+    </a>
+    <div class="c-card">
+      <div class="c-icon">📍</div>
+      <div class="c-lbl">Location</div>
+      <div class="c-val">Mansoura, Dakahlia</div>
+    </div>
+    <div class="c-card">
+      <div class="c-icon">🌍</div>
+      <div class="c-lbl">Languages</div>
+      <div class="c-val">Arabic · English</div>
+    </div>
+    <div class="c-card">
+      <div class="c-icon">🏢</div>
+      <div class="c-lbl">Current Role</div>
+      <div class="c-val">WE Store Retail</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logo">A · N</div>
+  <div class="foot-copy">© 2026 Aml Nabil Abbas Metwally. All rights reserved.</div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+(function animRing(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
+document.querySelectorAll('a,button,.c-card,.skill-cell,.t-card').forEach(el => {
+  el.addEventListener('mouseenter', ()=>{ cursor.style.transform='translate(-50%,-50%) scale(2)'; ring.style.transform='translate(-50%,-50%) scale(1.4)'; });
+  el.addEventListener('mouseleave', ()=>{ cursor.style.transform='translate(-50%,-50%) scale(1)'; ring.style.transform='translate(-50%,-50%) scale(1)'; });
+});
+
+// PARTICLES
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W,H,pts=[];
+function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+for(let i=0;i<70;i++) pts.push({ x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*0.3, vy:(Math.random()-.5)*0.3, r:Math.random()*1.5+0.5, o:Math.random()*0.4+0.1 });
+function drawParticles(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(232,146,124,${p.o})`; ctx.fill();
+  });
+  // lines
+  for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+    const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
+    if(d<120){ ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.strokeStyle=`rgba(232,146,124,${(1-d/120)*0.06})`; ctx.stroke(); }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// SCROLL REVEAL
+const revEls = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'), i*80); } });
+}, { threshold:0.1 });
+revEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
